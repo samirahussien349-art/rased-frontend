@@ -1,4 +1,3 @@
-
 # Logs
 logs
 *.log
@@ -8,87 +7,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependencies
-node_modules/
-jspm_packages/
-bower_components/
-web_modules/
+node_modules
+dist
+dist-ssr
+*.local
 
-# Build output
-dist/
-dist-ssr/
-build/
-.next/
-out/
-.output/
-.nuxt/
-.vuepress/dist/
-.svelte-kit/
-**/.vitepress/dist
-**/.vitepress/cache
-.vite/
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
-
-# Environment variables and secrets
-.env
-.env.*
-!.env.example
-
-# TypeScript
-*.tsbuildinfo
-
-# Caches and coverage
-.nyc_output/
-coverage/
-*.lcov
-.cache/
-.parcel-cache/
-.eslintcache
-.stylelintcache
-.turbo/
-.astro/
-.docusaurus/
-.serverless/
-.fusebox/
-.firebase/
-.dynamodb/
-.pnpm-store/
-lib-cov/
-.grunt/
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-.tern-port
-
-# npm and package archives
-.npm/
-*.tgz
-
-# Yarn
-.yarn-integrity
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-
-# Other generated files
-.lock-wscript
-build/Release
-.node_repl_history
-
-# Editors and operating systems
+# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.vscode-test/
-.idea/
+.idea
 .DS_Store
 *.suo
 *.ntvs*

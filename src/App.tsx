@@ -2,13 +2,14 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Performance from './performance'
 import Upload from './upload'
-
+import LiveAnalysis from './LiveAnalysis'
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/performance" replace />} />
       <Route path="/performance" element={<Performance />} />
       <Route path="/upload" element={<Upload />} />
+      <Route path="/live-analysis" element={<LiveAnalysis />} />
       <Route
         path="*"
         element={

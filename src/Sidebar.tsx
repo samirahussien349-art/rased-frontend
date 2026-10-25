@@ -27,7 +27,7 @@ export default function Sidebar({ active }: SidebarProps) {
     {
       icon: '◉',
       label: 'تحليل الفيديو المباشر',
-      href: '/analysis',
+      href: '/live-analysis',
       key: 'analysis',
     },
     { icon: '☷', label: 'إعدادات المنظومة', href: '/performance' },

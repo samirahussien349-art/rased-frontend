@@ -1,3 +1,9 @@
+export type AllowedContentType =
+  | "video/mp4"
+  | "video/quicktime"
+  | "video/webm"
+  | "video/x-matroska";
+
 export type AnalysisStatus =
   | "PENDING"
   | "PROCESSING"
@@ -7,7 +13,7 @@ export type AnalysisStatus =
 export interface VideoFile {
   file: File;
   filename: string;
-  contentType: string;
+  contentType: AllowedContentType;
   size: number;
 }
 
@@ -19,4 +25,4 @@ export interface AnalysisResult {
   error: string | null;
   createdAt: string;
   updatedAt: string;
-}
+}

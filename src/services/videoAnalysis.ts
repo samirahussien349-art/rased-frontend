@@ -1,77 +1,33 @@
-import { apiRequest } from "./api";
+import { apiRequest } from './api'
 
-export interface VideoUploadRequest {
-  filename: string;
-  contentType: string;
-  size: number;
+export interface UploadUrlResponse { videoId: string; uploadUrl: string; storageKey?: string; expiresIn?: number }
+export interface AnalysisResponse { analysisId: string; status: string }
+export interface AnalysisStatus { analysisId: string; status: string; result?: unknown; error?: string | null; [key: string]: unknown }
+
+export const requestUploadUrl = (file: File) => apiRequest<UploadUrlResponse>('/videos/upload-url', {
+  method: 'POST', headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ filename: file.name, contentType: file.type, size: file.size }),
+})
+
+export async function uploadToSignedUrl(url: string, file: File, onProgress: (progress: number) => void) {
+  await new Promise<void>((resolve, reject) => {
+    const request = new XMLHttpRequest()
+    request.open('PUT', url)
+    request.setRequestHeader('Content-Type', file.type)
+    request.upload.onprogress = event => { if (event.lengthComputable) onProgress(Math.round(event.loaded / event.total * 100)) }
+    request.onload = () => request.status >= 200 && request.status < 300 ? resolve() : reject(new Error(`فشل رفع الملف إلى التخزين (${request.status})`))
+    request.onerror = () => reject(new Error('تعذر الاتصال بمخزن الفيديو.'))
+    request.onabort = () => reject(new Error('تم إيقاف رفع الملف.'))
+    request.send(file)
+  })
 }
 
-export interface VideoUploadResponse {
-  videoId: string;
-  uploadUrl: string;
-  storageKey: string;
-  expiresIn: number;
-}
-
-export interface VideoConfirmResponse {
-  videoId: string;
-  storageKey: string;
-  size: number;
-  contentType: string;
-  status: "UPLOADED";
-}
-
-export interface AnalysisRequest {
-  videoId: string;
-}
-
-export interface AnalysisResponse {
-  analysisId: string;
-  status: "PENDING";
-}
-
-export interface AnalysisStatusResponse {
-  analysisId: string;
-  videoId: string;
-  storageKey: string;
-  status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
-  result: unknown | null;
-  error: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export function requestVideoUpload(data: VideoUploadRequest) {
-  return apiRequest<VideoUploadResponse>("/videos/upload-url", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-}
-
-export function confirmVideoUpload(videoId: string) {
-  return apiRequest<VideoConfirmResponse>(
-    `/videos/${encodeURIComponent(videoId)}/confirm`,
-    {
-      method: "POST",
-    },
-  );
-}
-
-export function startVideoAnalysis(videoId: string) {
-  return apiRequest<AnalysisResponse>("/analyses", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ videoId }),
-  });
-}
-
-export function getAnalysisStatus(analysisId: string) {
-  return apiRequest<AnalysisStatusResponse>(
-    `/analyses/${encodeURIComponent(analysisId)}`,
-  );
-}
+export const confirmUpload = (videoId: string) => apiRequest(`/videos/${encodeURIComponent(videoId)}/confirm`, { method: 'POST' })
+export const createAnalysis = (videoId: string) => apiRequest<AnalysisResponse>('/analyses', {
+  method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ videoId }),
+})
+export const getAnalysis = (analysisId: string) => apiRequest<AnalysisStatus>(`/analyses/${encodeURIComponent(analysisId)}`)
+export const analyzePlayer = (analysisId: string, playerId: string) => apiRequest(
+  `/analyses/${encodeURIComponent(analysisId)}/player`,
+  { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ playerId }) },
+)

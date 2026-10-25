@@ -4,9 +4,10 @@ import './index.css'
 import Performance from './performance'
 import Upload from './upload'
 
-const Screen = window.location.pathname.startsWith('/upload')
-  ? Upload
-  : Performance
+// The upload flow is the app's entry screen. Keep the report available at /performance.
+const Screen = window.location.pathname === '/performance'
+  ? Performance
+  : Upload
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

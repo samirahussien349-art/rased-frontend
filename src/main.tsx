@@ -1,15 +1,14 @@
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import './index.css'
-import Performance from './performance'
-import Upload from './upload'
-
-const Screen = window.location.pathname.startsWith('/upload')
-  ? Upload
-  : Performance
+import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Screen />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StrictMode>,
 )

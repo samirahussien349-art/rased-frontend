@@ -1,4 +1,3 @@
-
 import { NavLink } from 'react-router-dom'
 import './Sidebar.css'
 
@@ -75,13 +74,22 @@ export default function Sidebar({ active }: SidebarProps) {
       </div>
 
       <div className="sidebar-version">
-        <b>
-          إصدار المنظومة <span>v2.4 Pro</span>
-        </b>
-        <small>
-          <i /> محرك الذكاء الاصطناعي متصل
-        </small>
-        <small className="version-name">v2.4 Pro Tactical</small>
+        {active === 'upload' ? (
+          <>
+            <b>تحليل الفيديو</b>
+            <small>تُرسل البيانات إلى الخادم عند بدء الرفع.</small>
+          </>
+        ) : (
+          <>
+            <b>
+              إصدار المنظومة <span>v2.4 Pro</span>
+            </b>
+            <small>
+              <i /> محرك الذكاء الاصطناعي متصل
+            </small>
+            <small className="version-name">v2.4 Pro Tactical</small>
+          </>
+        )}
       </div>
     </aside>
   )

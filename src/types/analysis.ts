@@ -25,4 +25,4 @@ export interface AnalysisResult {
   error: string | null;
   createdAt: string;
   updatedAt: string;
-}
+}
